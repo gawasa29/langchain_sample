@@ -47,6 +47,9 @@ prompt = PromptTemplate(
 # インスタンスの作成
 model = OpenAI(temperature=0)
 
+# チェーンを作成
+chain = prompt | model
+
 # インプット
 doctors_notes = """
 49 y/o Male with chronic macular rash to face & hair, worse in beard, eyebrows & nares.
@@ -54,6 +57,6 @@ Itchy, flaky, slightly scaly. Moderate response to OTC steroid cream
 """
 
 # 実行
-output = model(prompt.format_prompt(doctors_notes=doctors_notes).to_string())
+output = chain.invoke(doctors_notes)
 
 print(output_parser.parse(output))

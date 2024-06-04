@@ -48,6 +48,9 @@ prompt = PromptTemplate(
 # インスタンスの作成
 model = OpenAI(temperature=0)
 
+# チェーンを作成
+chain = prompt | model
+
 # インプット
 speaker_input = """
 僕の名前は山田太郎だよ、性別は男、僕の体は身長180センチ、体重120キロなんだけど、太り過ぎが悪いと思うよ。
@@ -55,6 +58,6 @@ speaker_input = """
 """
 
 # 実行
-output = model(prompt.format_prompt(speaker_input=speaker_input).to_string())
+output = chain.invoke(speaker_input)
 
 print(output_parser.parse(output))
