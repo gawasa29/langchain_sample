@@ -17,18 +17,19 @@ rail_spec = """
 <rail version="0.1">
 
 <output>
-    <object name="patient_info">
-        <string name="gender" description="Patient's gender" />
-        <integer name="age" format="valid-range: 0 100" />
-        <string name="symptoms" description="Symptoms that the patient is currently experiencing" />
+    <object name="speaker_info">
+        <string name="name" description="Speaker's name" />
+        <integer name="height" description="Speaker's heigth" />
+        <integer name="weight" format="valid-range: 0 1000" />
+        <string name="symptoms" description="Symptoms that the speaker is currently experiencing" />
     </object>
 </output>
 
 <prompt>
 
-Given the following doctor's notes about a patient, please extract a dictionary that contains the patient's information.
+Extract a dictionary containing the speaker's information from the following inputs.
 
-${doctors_notes}
+${speaker_input}
 
 ${gr.complete_json_suffix_v2}
 </prompt>
@@ -48,12 +49,12 @@ prompt = PromptTemplate(
 model = OpenAI(temperature=0)
 
 # インプット
-doctors_notes = """
-49 y/o Male with chronic macular rash to face & hair, worse in beard, eyebrows & nares.
-Itchy, flaky, slightly scaly. Moderate response to OTC steroid cream
+speaker_input = """
+僕の名前は山田太郎だよ、性別は男、僕の体は身長180センチ、体重120キロなんだけど、太り過ぎが悪いと思うよ。
+そして僕は糖尿病なんだけどで太り過ぎが原因だと思うよ。
 """
 
 # 実行
-output = model(prompt.format_prompt(doctors_notes=doctors_notes).to_string())
+output = model(prompt.format_prompt(speaker_input=speaker_input).to_string())
 
 print(output_parser.parse(output))
